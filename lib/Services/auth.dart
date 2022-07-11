@@ -54,7 +54,7 @@ class AuthService{
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email.trim(), password: password.trim());
       User? user = result.user;
       //create a new document for user with UID
-      await DataBaseService(uid: user!.uid).updateUserData(email, name, age, gender,phoneNumber);
+      await DataBaseService(uid: user!.uid).updateUserData(user.uid, email, name, age, gender,phoneNumber);
       return _userfromFirebase(user);
     }on FirebaseAuthException catch(e){
       print(e.toString());
@@ -105,7 +105,7 @@ class AuthService{
     }
     if (user != null) {
       await DataBaseService(uid: user.uid)
-          .updateUserData(email, name, age,gender,phoneNumber);
+          .updateUserData(user.uid,email, name, age,gender,phoneNumber);
     } else {
       return "cannot get user";
     }

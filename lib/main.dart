@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:picture_msg/Chat/room_list_page.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:picture_msg/Services/auth.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) =>  Home(camera: camera),
           '/camera': (context) => CameraApp(camera: camera),
           '/profile': (context) => Profile(),
+          '/chat' : (context) => RoomListPage()
         },
       ),
     );

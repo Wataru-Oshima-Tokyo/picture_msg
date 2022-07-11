@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:picture_msg/Services/auth.dart';
 import 'package:picture_msg/Screens/Home/profile.dart';
 import 'package:picture_msg/Camera/camera.dart';
+import 'package:picture_msg/Chat/room_list_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:camera/camera.dart';
 
@@ -36,7 +37,7 @@ class Home extends StatelessWidget {
     //   }
     // });
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Picture_msg',
@@ -72,6 +73,9 @@ class Home extends StatelessWidget {
               child: CameraApp(camera: camera),
             ),
             Container(
+              child:  RoomListPage(),
+            ),
+            Container(
               child: const Profile(),
             ),
           ],
@@ -83,6 +87,9 @@ class Home extends StatelessWidget {
               ),
               Tab(
                 icon: Icon(Icons.camera),
+              ),
+              Tab(
+                icon: Icon(Icons.sms),
               ),
               Tab(
                 icon: Icon(Icons.account_box),
