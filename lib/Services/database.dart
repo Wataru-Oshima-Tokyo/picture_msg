@@ -27,7 +27,9 @@ class DataBaseService {
       'phoneNumber': phoneNumber
     });
   }
-
+  Future getUserData(String uid) async{
+    return await userGroup.doc(uid).get();
+  }
 
   //get user list from snapshot
   List<AppUser> _myUserListFromSnapshot(QuerySnapshot snapshot) {

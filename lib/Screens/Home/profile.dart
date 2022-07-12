@@ -19,6 +19,7 @@ String gender = '';
 String phoneNumber = '';
 
 
+
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
@@ -33,20 +34,24 @@ class _ProfileState extends State<Profile> {
   User user = auth.currentUser!;
   AuthService _auth = AuthService();
 
-  var docRef = FirebaseFirestore.instance
-      .collection('User')
-      .doc(_uid)
-      .snapshots()
-      .listen((docSnapshot) {
-    if (docSnapshot.exists) {
-      Map<String, dynamic> data = docSnapshot.data()!;
-      name = data['name'].toString();
-      email = data['email'].toString();
-      age = data['age'].toString();
-      gender = data['gender'].toString();
-      phoneNumber = data['phoneNumber'].toString();
-    } else {}
-  });
+  void initState(){
+    _getUserName();
+    print(name);
+    super.initState();
+  }
+  void _getUserName() async {
+    var docRef = await FirebaseFirestore.instance
+        .collection('User')
+        .doc(_uid).get();
+    name = docRef['name'].toString();
+    email = docRef['email'].toString();
+    age = docRef['age'].toString();
+    gender = docRef['gender'].toString();
+    phoneNumber = docRef['phoneNumber'].toString();
+  }
+
+
+
 
   // String
   // This widget is the root of your application.
@@ -302,3 +307,6 @@ class _ProfileState extends State<Profile> {
     );
   }
 }
+
+
+

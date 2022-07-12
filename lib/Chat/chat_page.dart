@@ -17,17 +17,7 @@ final User user = auth.currentUser!;
 final String _uid = user.uid.toString();
 final AuthService _auth = AuthService();
 String _name ="";
-var docRef = FirebaseFirestore.instance
-    .collection('User')
-    .doc(_uid)
-    .snapshots()
-    .listen((docSnapshot) {
-  if (docSnapshot.exists) {
-    Map<String, dynamic> data = docSnapshot.data()!;
-    _name = data['name'].toString();
 
-  } else {}
-});
 class ChatPage extends StatefulWidget {
   const ChatPage(this.name, {Key? key}) : super(key: key);
 
@@ -46,6 +36,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void initState() {
     _getMessages();
+    print(_name);
     super.initState();
   }
 
@@ -56,6 +47,10 @@ class _ChatPageState extends State<ChatPage> {
         .doc(widget.name)
         .collection('contents')
         .get();
+    final docRef = await FirebaseFirestore.instance
+        .collection('User')
+        .doc(_uid).get();
+    _name = docRef['name'].toString();
 
     final message = getData.docs
         .map((d) => types.TextMessage(
@@ -69,6 +64,8 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {
       _messages = [...message];
     });
+
+
   }
 
   // メッセージ内容をfirestoreにセット
