@@ -30,15 +30,13 @@ class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
   String randomId = Uuid().v4();
 
-
-  final _user =  types.User(id: _uid, firstName: _name);
-
-
   void initState() {
     _getMessages();
     print(_name);
     super.initState();
   }
+
+  final _user =  types.User(id: _uid, firstName: _name);
 
   // firestoreからメッセージの内容をとってきて_messageにセット
   void _getMessages() async {
@@ -114,7 +112,6 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat'),
@@ -126,6 +123,7 @@ class _ChatPageState extends State<ChatPage> {
           // 送信ボタン
           sendButtonIcon: Icon(Icons.send),
           sendingIcon: Icon(Icons.update_outlined),
+
         ),
         // ユーザーの名前を表示するかどうか
         showUserNames: true,
@@ -134,7 +132,30 @@ class _ChatPageState extends State<ChatPage> {
         onPreviewDataFetched: _handlePreviewDataFetched,
         onSendPressed: _handleSendPressed,
         user: _user,
+
       ),
     );
   }
 }
+
+Future<void> showCameraSelector(BuildContext context,
+    VoidCallback onTapGallery, VoidCallback onTapCamera) =>
+    showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.photo_library),
+              // title: Text(Strings.of(context).gallery),
+              title : Text("gallery"),
+              onTap: onTapGallery,
+            ),
+            ListTile(
+              leading: Icon(Icons.camera_alt),
+              title: Text("camera"),
+              // title: Text(Strings.of(context).camera),
+              onTap: onTapCamera,
+            ),
+          ],
+        ));

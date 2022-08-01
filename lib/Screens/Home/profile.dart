@@ -12,11 +12,7 @@ import 'package:picture_msg/Services/auth.dart';
 final FirebaseAuth auth = FirebaseAuth.instance;
 final User user = auth.currentUser!;
 final String _uid = user.uid.toString();
-String name = '_______';
-String email = '_______';
-String age = '';
-String gender = '';
-String phoneNumber = '';
+
 
 
 
@@ -28,35 +24,36 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  String name ="____";
+  String email ="____";
+  String phoneNumber ="";
+  String age ="";
+  String gender ="";
+
   String password = '';
   String error = '';
 
   User user = auth.currentUser!;
   AuthService _auth = AuthService();
 
-  void initState(){
-    _getUserName();
-    print(name);
-    super.initState();
+  // void initState() async{
+  //   getInfo();
+  //   super.initState();
+  // }
+  void getInfo() async{
+  final docRef = await FirebaseFirestore.instance
+      .collection('User')
+      .doc(_uid).get();
+   name = docRef['name'].toString();
+   email = docRef['email'].toString();
   }
-  void _getUserName() async {
-    var docRef = await FirebaseFirestore.instance
-        .collection('User')
-        .doc(_uid).get();
-    name = docRef['name'].toString();
-    email = docRef['email'].toString();
-    age = docRef['age'].toString();
-    gender = docRef['gender'].toString();
-    phoneNumber = docRef['phoneNumber'].toString();
-  }
-
-
 
 
   // String
   // This widget is the root of your application.
   Widget _buildFutureBuilder() {
     return FutureBuilder(
+
       future: _auth.currUser(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {

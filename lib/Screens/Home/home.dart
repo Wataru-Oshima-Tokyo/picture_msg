@@ -25,6 +25,8 @@ class Home extends StatelessWidget {
 
   final CameraDescription camera;
 
+
+
   @override
   Widget build(BuildContext context) {
     String _username="";
