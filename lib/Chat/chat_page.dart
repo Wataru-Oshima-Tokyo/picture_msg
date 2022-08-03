@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:io';
 // flutter_chat_uiを使うためのパッケージをインポート
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:image_picker/image_picker.dart';
 
 import 'package:provider/provider.dart';
 // ランダムなIDを採番してくれるパッケージ
@@ -65,6 +67,31 @@ class _ChatPageState extends State<ChatPage> {
 
 
   }
+
+  // File? imageFile; will return
+  //
+  // Future pickImages() async{
+  //
+  //   ImagePicker _picker = ImagePicker();
+  //
+  //   await _picker.pickImage(source: ImageSource.gallery).then((xFile){
+  //     if(xFile != null){
+  //       imageFile = File(xFile.path);
+  //     }
+  //   });
+  // }
+  //
+  // Future uploadImages() async{
+  //
+  //   String fileName = Uuid().v1();
+  //
+  //   var ref = FirebaseStorage.instance.ref().child('images').child("$fileName.jpg");
+  //
+  //   var uploadTask = ref.putFile(imageFile!);
+  //
+  //   String ImageUrl = uploadImages();
+  // }
+
 
   // メッセージ内容をfirestoreにセット
   void _addMessage(types.TextMessage message) async {

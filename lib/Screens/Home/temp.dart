@@ -1,116 +1,41 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:picture_msg/Services/auth.dart';
-import 'package:picture_msg/Screens/Home/profile.dart';
-import 'package:picture_msg/Camera/camera.dart';
-import 'package:picture_msg/Chat/room_list_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:camera/camera.dart';
-import 'dart:io';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+void main() {
+  runApp(const MyApp());
+}
 
-final FirebaseAuth auth = FirebaseAuth.instance;
-final User user = auth.currentUser!;
-final String _uid = user.uid.toString();
-final AuthService _auth = AuthService();
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-List storePayments =[];
-
-
-
-class Home extends StatelessWidget {
-  const Home({
-    Key? key,
-    required this.camera,
-  }) : super(key: key);
-
-  final CameraDescription camera;
-
-
-
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    String _username="";
-    String _uid = user.uid.toString();
-    // var docRef = FirebaseFirestore.instance.collection('User').doc(_uid).snapshots().listen((docSnapshot) {
-    //   if (docSnapshot.exists) {
-    //     Map<String, dynamic> data = docSnapshot.data()!;
-    //     storePayments = data['payments'];
-    //     // print(storePayments);
-    //   }
-    // });
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Picture_msg',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.blueAccent,
-          elevation: 0.0,
-          actions: <Widget>[
-            TextButton.icon(
-              icon: Icon(Icons.person),
-              label: Text('logout',
-                style: TextStyle(
-                color: Colors.red
-              ),
-              ),
-              onPressed: ()async{
-                await _auth.signOut();
-              },
-            )
-          ],
-        ),
-
-        body: TabBarView(
-          children: [
-            Container(
-              child: MyHomePage(title: 'Home'),
-            ),
-            Container(
-              child:  RoomListPage(),
-            ),
-            Container(
-              child: const Profile(),
-            ),
-          ],
-        ),
-
-        bottomNavigationBar: TabBar(
-            tabs: [
-              Tab(
-                icon: Icon(Icons.home),
-              ),
-              Tab(
-                icon: Icon(Icons.sms),
-              ),
-              Tab(
-                icon: Icon(Icons.account_box),
-              ),
-            ],
-            labelColor: Theme.of(context).primaryColor,
-            unselectedLabelColor: Colors.black38,
-            indicatorSize: TabBarIndicatorSize.label,
-            indicatorPadding: EdgeInsets.all(5.0),
-            indicatorColor: Theme.of(context).primaryColor
-        ),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
+        primarySwatch: Colors.blue,
       ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -192,6 +117,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Screenshot(
       controller: controller,
       child: Scaffold(
+        appBar: AppBar(
+          title: Text("Image Picker"),
+        ),
         body: Center(
           child: Column(
             children: [
@@ -283,10 +211,10 @@ class _MyHomePageState extends State<MyHomePage> {
       image != null
           ? Image.file(
         image!,
-        width: 300,
-        height: 300,
+        width: 400,
+        height: 400,
         fit: BoxFit.cover,
-      ): FlutterLogo(size: 300),
+      ): Text("No image was seclected"),
       Positioned(//This is where we set the postion of the writing
           bottom: 16,
           right: 0,
@@ -305,4 +233,3 @@ class _MyHomePageState extends State<MyHomePage> {
     ],
   );
 }
-

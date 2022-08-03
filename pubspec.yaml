@@ -41,6 +41,12 @@ dependencies:
   flutter_chat_ui: ^1.2.0
   uuid: 3.0.6
   flutter_native_image: ^0.0.6
+  image_picker: ^0.8.5+3
+  http: ^0.13.3
+  share_plus: ^4.0.10
+  screenshot: ^1.2.3
+  image_gallery_saver: ^1.6.9
+  permission_handler: ^8.1.1
 
 
 
