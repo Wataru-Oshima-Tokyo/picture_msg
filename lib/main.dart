@@ -6,7 +6,6 @@ import 'package:picture_msg/Services/auth.dart';
 import 'package:picture_msg/Screens/Home/home.dart';
 import 'package:picture_msg/Screens/wrapper.dart';
 import 'package:picture_msg/Screens/Home/profile.dart';
-import 'package:picture_msg/Camera/camera.dart';
 import 'Models/user.dart';
 import 'firebase_options.dart';
 import 'package:camera/camera.dart';
@@ -40,9 +39,8 @@ class MyApp extends StatelessWidget {
         home: Wrapper(camera: camera),
         routes: {
           '/home': (context) =>  Home(camera: camera),
-          '/camera': (context) => CameraApp(camera: camera),
           '/profile': (context) => Profile(),
-          '/chat' : (context) => RoomListPage()
+          '/chat' : (context) => RoomPage()
         },
       ),
     );

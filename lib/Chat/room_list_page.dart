@@ -1,12 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:picture_msg/Chat/ChatRoom.dart';
+import 'package:picture_msg/Screens/Home/home.dart';
 import 'package:provider/provider.dart';
-import 'package:picture_msg/Chat/add_room_page.dart';
-import 'package:picture_msg/Chat/chat_page.dart';
 
-class RoomListPage extends StatelessWidget {
+
+class RoomPage extends StatefulWidget{
+  @override
+  RoomListPage createState() => RoomListPage();
+}
+class RoomListPage extends State<RoomPage> {
   // 引数からユーザー情報を受け取れるようにする
-  RoomListPage();
+  Map <String , dynamic>? userMap;
+  bool isLoading = false;
+  final TextEditingController search = TextEditingController();
+
+  String chatRoomID(String user1, String user2){
+    if(user1[0].toLowerCase().codeUnits[0] > user2.toLowerCase().codeUnits[0]){
+      return "$user1$user2";
+    }else{
+      return "$user2$user1";
+    }
+  }
+
+  void onSearch() async{//allows us to search for users
+    setState(() {
+      isLoading = true;
+    });
+
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+    await _firestore.collection('User').where("email", isEqualTo: search.text)
+    .get().then((value){
+      setState(() {
+        userMap = value.docs[0].data();
+        isLoading = false;
+      });
+      print(userMap);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,60 +46,43 @@ class RoomListPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Chat'),
       ),
-      body: Column(
+      body: isLoading
+          ? Center(
+        child: Container(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(),
+        ),
+      )
+      : Column(
         children: [
-          Expanded(
-            // Stream 非同期処理の結果を元にWidgetを作る
-              child: StreamBuilder<QuerySnapshot>(
-                // 投稿メッセージ一覧の取得
-                stream: FirebaseFirestore.instance
-                    .collection('chat_room')
-                    .orderBy('createdAt')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  // データが取得できた場合
-                  if (snapshot.hasData) {
-                    final List<DocumentSnapshot> documents = snapshot.data!.docs;
-                    return ListView(
-                      children: documents.map((document) {
-                        return Card(
-                          child: ListTile(
-                            title: Text(document['name']),
-                            trailing: IconButton(
-                              icon: Icon(Icons.input),
-                              onPressed: () async {
-                                // チャットページへ画面遷移
-                                await Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return ChatPage(document['name']);
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  }
-                  // データが読込中の場合
-                  return Center(
-                    child: Text('Loading...'),
-                  );
-                },
-              )),
+          TextField(
+            controller: search,
+            decoration: InputDecoration(
+              hintText: "SEARCH for a user",
+            ),
+          ),
+          ElevatedButton(
+            onPressed: onSearch,
+            child: Text("Search"),
+          ),
+          userMap != null ? ListTile(
+            onTap: (){
+              String ID = chatRoomID(
+                auth.currentUser!.displayName!,
+                userMap!['name']);
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) => chatRoom(
+                roomID: ID,
+                userMap: userMap!,
+              )));
+            },
+            trailing: Icon(Icons.chat_bubble, color: Colors.black),
+            title: Text(userMap!['name']),
+            subtitle: Text(userMap!['email']),
+          ): Container(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () async {
-          await Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) {
-            return AddRoomPage();
-          }));
-        },
-      ),
+
     );
   }
 }

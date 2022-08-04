@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:picture_msg/Services/auth.dart';
 import 'package:picture_msg/Screens/Home/profile.dart';
-import 'package:picture_msg/Camera/camera.dart';
 import 'package:picture_msg/Chat/room_list_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:camera/camera.dart';
@@ -18,6 +17,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:picture_msg/Chat/ChatRoom.dart';
 
 
 final FirebaseAuth auth = FirebaseAuth.instance;
@@ -43,13 +43,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     String _username="";
     String _uid = user.uid.toString();
-    // var docRef = FirebaseFirestore.instance.collection('User').doc(_uid).snapshots().listen((docSnapshot) {
-    //   if (docSnapshot.exists) {
-    //     Map<String, dynamic> data = docSnapshot.data()!;
-    //     storePayments = data['payments'];
-    //     // print(storePayments);
-    //   }
-    // });
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -84,7 +78,7 @@ class Home extends StatelessWidget {
               child: MyHomePage(title: 'Home'),
             ),
             Container(
-              child:  RoomListPage(),
+              child:  RoomPage(),
             ),
             Container(
               child: const Profile(),
@@ -305,4 +299,3 @@ class _MyHomePageState extends State<MyHomePage> {
     ],
   );
 }
-

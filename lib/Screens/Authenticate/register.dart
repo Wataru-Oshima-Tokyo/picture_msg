@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:picture_msg/Services/auth.dart';
 import 'package:picture_msg/shared/constants.dart';
@@ -15,8 +16,11 @@ class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();//so we can use the sign in class
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   //text field state
+
+
   String email = '';
   String password = '';
   String error = '';
