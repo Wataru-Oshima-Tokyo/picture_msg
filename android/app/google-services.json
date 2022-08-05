@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "886419778690",
+    "project_id": "picture-msg",
+    "storage_bucket": "picture-msg.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886419778690:android:624fdc9bd966f7c083989b",
+        "android_client_info": {
+          "package_name": "com.example.picture_msg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886419778690-1rl6lnjivtav2mfv5o5l016qhna8fkqr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmRAT9kBQieJ_Non3M5xTbP9nIzX63luA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886419778690-1rl6lnjivtav2mfv5o5l016qhna8fkqr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "886419778690-doijlfn0clvrshn2rbevev359hgcv181.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pictureMsg"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
